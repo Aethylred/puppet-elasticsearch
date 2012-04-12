@@ -47,22 +47,22 @@ class elasticsearch::install(
     path    => ['/usr/bin'],
     cwd     => $install_root,
     user    => root,
-    command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git elasticsearch-servicewrapper",
+    command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git elasticsearch-servicewrapper&& cp -R elasticsearch-servicewrapper/service elasticsearch/bin",
     creates => "${install_root}/elasticsearch-servicewrapper",
   }
 
-  file{'link_elasticsearch_wrapper':
-    ensure  => link,
-    require => Exec['install_servicewrapper'],
-    owner   => root,
-    group   => root,
-    path    => "${install_root}/elasticsearch/bin/service",
-    target  => "${install_root}/elasticsearch-servicewrapper/service",
-  }
+  #file{'link_elasticsearch_wrapper':
+  #  ensure  => link,
+  #  require => Exec['install_servicewrapper'],
+  #  owner   => root,
+  #  group   => root,
+  #  path    => "${install_root}/elasticsearch/bin/service",
+  #  target  => "${install_root}/elasticsearch-servicewrapper/service",
+  #}
 
   file{'link_elasticsearch_service':
     ensure  => link,
-    require => File['link_elasticsearch_wrapper'],
+    require => Exec['install_servicewrapper'],
     owner   => root,
     group   => root,
     path    => '/etc/init.d/elasticsearch',
