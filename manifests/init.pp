@@ -39,7 +39,7 @@ class elasticsearch::install(
     cwd       => $install_root,
     user      => root,
     command   => "git clone git://github.com/elasticsearch/elasticsearch.git elasticsearch&& cd elasticsearch&& git checkout v${version}",
-    creates   => "${install_root}/elasticsearch-${version}",
+    creates   => "${install_root}/elasticsearch",
   }
 
   exec{'install_servicewrapper':
