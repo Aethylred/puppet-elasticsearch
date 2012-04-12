@@ -56,7 +56,7 @@ class elasticsearch::install(
     require => Exec['install_servicewrapper'],
     owner   => root,
     group   => root,
-    path    => "${install_root}/elasticsearch/bin/service",
+    path    => "${install_root}/elasticsearch-${version}/bin/service",
     target  => "${install_root}/elasticsearch-servicewrapper/service",
   }
 
@@ -66,7 +66,7 @@ class elasticsearch::install(
     owner   => root,
     group   => root,
     path    => '/etc/init.d/elasticsearch',
-    target  => "${install_root}/elasticsearch-${elasticsearch_version}/bin/service/elasticsearch",
+    target  => "${install_root}/elasticsearch-${version}/bin/service/elasticsearch",
   }
 
   service{'elasticsearch':
