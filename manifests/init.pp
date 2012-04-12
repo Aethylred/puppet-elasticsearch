@@ -38,8 +38,8 @@ class elasticsearch::install(
     path      => ['/usr/bin'],
     cwd       => $install_root,
     user      => root,
-    command   => "git clone -b v${version} git://github.com/elasticsearch/elasticsearch.git elasticsearch-${elasticsearch_version}",
-    creates   => "${install_root}/elasticsearch-${elasticsearch_version}",
+    command   => "git clone -b v${version} git://github.com/elasticsearch/elasticsearch.git elasticsearch-${version}",
+    creates   => "${install_root}/elasticsearch-${version}",
   }
 
   exec{'install_servicewrapper':
@@ -47,7 +47,7 @@ class elasticsearch::install(
     path    => ['/usr/bin'],
     cwd     => $install_root,
     user    => root,
-    command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git elasticsearch-servicewapper",
+    command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git elasticsearch-servicewrapper",
     creates => "${install_root}/elasticsearch-servicewrapper",
   }
 
