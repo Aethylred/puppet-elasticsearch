@@ -62,7 +62,7 @@ class elasticsearch::install(
 
   file{'link_elasticsearch_service':
     ensure  => link,
-    require => File['link_elasticsearch_wapper'],
+    require => File['link_elasticsearch_wrapper'],
     owner   => root,
     group   => root,
     path    => '/etc/init.d/elasticsearch',
