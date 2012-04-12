@@ -48,7 +48,7 @@ class elasticsearch::install(
     cwd     => $install_root,
     user    => root,
     command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git elasticsearch-servicewrapper&& cp -R elasticsearch-servicewrapper/service elasticsearch/bin",
-    creates => "${install_root}/elasticsearch-servicewrapper",
+    creates => "${install_root}/elasticsearch/bin/service",
   }
 
   #file{'link_elasticsearch_wrapper':
