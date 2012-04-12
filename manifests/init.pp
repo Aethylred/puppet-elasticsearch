@@ -44,7 +44,7 @@ class elasticsearch::install(
 
   exec{'install_servicewrapper':
     require => Exec['install_elasticsearch'],
-    path    => ['/usr/bin'],
+    path    => ['/usr/bin','/bin'],
     cwd     => $install_root,
     user    => root,
     command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git elasticsearch-servicewrapper&& cp -R elasticsearch-servicewrapper/service elasticsearch/bin",
