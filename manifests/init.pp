@@ -38,7 +38,7 @@ class elasticsearch::install(
     path      => ['/usr/bin'],
     cwd       => $install_root,
     user      => root,
-    command   => "git clone git://github.com/elasticsearch/elasticsearch.git elasticsearch-${version}&& cd elasticsearch-${version}&& git checkout v${version}",
+    command   => "git clone git://github.com/elasticsearch/elasticsearch.git elasticsearch&& cd elasticsearch&& git checkout v${version}",
     creates   => "${install_root}/elasticsearch-${version}",
   }
 
@@ -56,7 +56,7 @@ class elasticsearch::install(
     require => Exec['install_servicewrapper'],
     owner   => root,
     group   => root,
-    path    => "${install_root}/elasticsearch-${version}/bin/service",
+    path    => "${install_root}/elasticsearch/bin/service",
     target  => "${install_root}/elasticsearch-servicewrapper/service",
   }
 
@@ -66,8 +66,8 @@ class elasticsearch::install(
     owner   => root,
     group   => root,
     path    => '/etc/init.d/elasticsearch',
-    target  => "${install_root}/elasticsearch-${version}/bin/service/elasticsearch",
-  }
+    target  => "${install_root}/elasticsearch/bin/service/elasticsearch",
+  }link_elasticsearch_service
 
   service{'elasticsearch':
     require => File['link_elasticsearch_service'],
