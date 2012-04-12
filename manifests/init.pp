@@ -67,7 +67,7 @@ class elasticsearch::install(
     group   => root,
     path    => '/etc/init.d/elasticsearch',
     target  => "${install_root}/elasticsearch/bin/service/elasticsearch",
-  }link_elasticsearch_service
+  }
 
   service{'elasticsearch':
     require => File['link_elasticsearch_service'],
