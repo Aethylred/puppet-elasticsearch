@@ -20,8 +20,8 @@ class elasticsearch(
 }
 
 class elasticsearch::install(
-  $version      => "0.19.2",
-  $install_root => "/opt"
+  $version      = "0.19.2",
+  $install_root = "/opt"
 ){
   # NOTE: This is not a good way to install something.
   # It would be better to create RPM packages and put them in
