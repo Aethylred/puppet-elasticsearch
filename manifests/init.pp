@@ -1,79 +1,40 @@
-# Elasticsearch manifest
-# http://www.elasticsearch.org/
-# https://github.com/Aethylred/puppet-elasticsearch
+# NeSI Elasticsearch manifest v2
+# The old manifest installed by including tarballs in the puppet git repository
+# which is not ideal. Rewriting to download and install a stable version directly.
 
 class elasticsearch(
-  $version      = "0.19.2",
-  $install_root = "/opt"
+  $version        = '0.19.4',
+  $app_root       = '/opt',
+  $conf_path      = false,
+  $data_path      = false,
+  $cluster_name   = false,
+  $node_name      = false,
+  $master_node    = false,
+  $data_node      = true,
+  $node_rack      = false,
+  $service_git_url = 'git://github.com/elasticsearch/elasticsearch-servicewrapper.git'
 ){
-  case $operatingsystem{
-    CentOS:{
+
+  $app_url = "https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-${version}.tar.gz"
+
+  case $operatingsystem {
+    CentOS: {
       class{'elasticsearch::install':
-        version       => $version,
-        install_root  => $install_root,
-        git_package => 'git'
+        version         => $version,
+        app_root        => $app_root,
+        app_url         => $app_url,
+        conf_path       => $conf_path,
+        data_path       => $data_path,
+        cluster_name    => $cluster_name,
+        node_name       => $node_name,
+        master_node     => $master_node,
+        data_node       => $data_node,
+        node_rack       => $node_rack,
+        service_git_url => $service_git_url
       }
     }
-    default:{
-      warning{"ElasticSearch ${version} not configured for ${operatingsystem}":}
+    default: {
+      warning("WARNING elasticsearch is not configured for ${operatingsystem} on ${fqdn}")
     }
-  }
-}
-
-class elasticsearch::install(
-  $version      = "0.19.2",
-  $install_root = "/opt",
-  $git_package = "git-core"
-){
-  # NOTE: This is not a good way to install something.
-  # It would be better to create RPM packages and put them in
-  # a repository server
-  # https://github.com/tavisto/elasticsearch-rpms
-  # ...or use git to clone elasticsearch...
-
-  package{$git_package: ensure => installed}
-
-  exec{'install_elasticsearch':
-    require   => Package[$git_package],
-    path      => ['/usr/bin'],
-    cwd       => $install_root,
-    user      => root,
-    command   => "git clone git://github.com/elasticsearch/elasticsearch.git elasticsearch&& cd elasticsearch&& git checkout v${version}",
-    creates   => "${install_root}/elasticsearch",
-  }
-
-  exec{'install_servicewrapper':
-    require => Exec['install_elasticsearch'],
-    path    => ['/usr/bin','/bin'],
-    cwd     => $install_root,
-    user    => root,
-    command => "git clone git://github.com/elasticsearch/elasticsearch-servicewrapper.git elasticsearch-servicewrapper&& cp -R elasticsearch-servicewrapper/service elasticsearch/bin",
-    creates => "${install_root}/elasticsearch/bin/service",
-  }
-
-  #file{'link_elasticsearch_wrapper':
-  #  ensure  => link,
-  #  require => Exec['install_servicewrapper'],
-  #  owner   => root,
-  #  group   => root,
-  #  path    => "${install_root}/elasticsearch/bin/service",
-  #  target  => "${install_root}/elasticsearch-servicewrapper/service",
-  #}
-
-  file{'link_elasticsearch_service':
-    ensure  => link,
-    require => Exec['install_servicewrapper'],
-    owner   => root,
-    group   => root,
-    path    => '/etc/init.d/elasticsearch',
-    target  => "${install_root}/elasticsearch/bin/service/elasticsearch",
-  }
-
-  service{'elasticsearch':
-    require => File['link_elasticsearch_service'],
-    ensure => running,
-    enable => true,
-    hasstatus => true,
-    hasrestart => true,
   }
 }
