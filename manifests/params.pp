@@ -8,7 +8,7 @@ class elasticsearch::params {
     }
     Debian:{
       $package_url      = "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.deb"
-      $package_provider = 'apt'
+      $package_provider = 'dpkg'
     }
     default:{
       fail{"Elasticsearch module not configured for ${::osfamily}.":}
