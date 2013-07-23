@@ -34,6 +34,7 @@
 # [Remember: No empty lines between comments and class definition]
 class elasticsearch(
   $package_url      = $elasticsearch::params::package_url,
+  $package_file     = $elasticsearch::params::package_file,
   $data_path        = undef,
   $cluster_name     = false,
   $node_name        = false,
@@ -43,9 +44,16 @@ class elasticsearch(
   $service_git_url  = 'git://github.com/elasticsearch/elasticsearch-servicewrapper.git'
 ) inherits elasticsearch::params {
 
+  exec{'download_elasticsearch':
+    cwd     => '/tmp',
+    command => "/usr/bin/wget ${package_url}",
+    unless  => '/usr/bin/dpkg-query -l elasticsearch',
+    before  => Package['elasticsearch'],
+  }
+
   package{'elasticsearch':
     ensure    => installed,
-    source    => $package_url,
+    source    => "/tmp/${package_file}",
     provider  => $elasticsearch::params::package_provider,
   }
 

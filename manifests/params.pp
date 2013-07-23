@@ -3,12 +3,14 @@ class elasticsearch::params {
     $service_repo   = 'https://github.com/elasticsearch/elasticsearch-servicewrapper.git'
   case $::osfamily {
     RedHat:{
-      $package_url      = "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.noarch.rpm"
+      $package_file     = "elasticsearch-${version}.noarch.rpm"
+      $package_url      = "https://download.elasticsearch.org/elasticsearch/elasticsearch/${package_file}"
       $package_provider = 'rpm'
     }
     Debian:{
-      $package_url      = "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.deb"
-      $package_provider = 'dpkg'
+      $package_file     = "elasticsearch-${version}.deb"
+      $package_url      = "https://download.elasticsearch.org/elasticsearch/elasticsearch/${package_file}"
+      $package_provider = 'apt'
     }
     default:{
       fail{"Elasticsearch module not configured for ${::osfamily}.":}
