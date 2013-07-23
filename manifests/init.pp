@@ -34,7 +34,6 @@
 # [Remember: No empty lines between comments and class definition]
 class elasticsearch(
   $package_url      = $elasticsearch::params::package_url,
-  $sun_package      = $elasticsearch::params::sun_package,
   $data_path        = undef,
   $cluster_name     = false,
   $node_name        = false,
