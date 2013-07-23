@@ -1,6 +1,6 @@
 class elasticsearch::params {
-    $version        = '0.90.1',
-    $service_repo   = 'https://github.com/elasticsearch/elasticsearch-servicewrapper.git',
+    $version        = '0.90.1'
+    $service_repo   = 'https://github.com/elasticsearch/elasticsearch-servicewrapper.git'
   case $::osfamily {
     RedHat:{
       $package_url      = "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.noarch.rpm"
@@ -11,7 +11,7 @@ class elasticsearch::params {
       $package_provider = 'apt'
     }
     default:{
-      fail{"Elasticsearch module not configured for ${::osfamily}."}
+      fail{"Elasticsearch module not configured for ${::osfamily}.":}
     }
   }
 

@@ -47,7 +47,6 @@ class elasticsearch(
     ensure    => installed,
     source    => $package_url,
     provider  => $elasticsearch::params::package_provider,
-    require   => Package[$sun_package],
   }
 
 }
