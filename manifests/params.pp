@@ -1,5 +1,5 @@
 class elasticsearch::params {
-    $version        = '0.90.1'
+    $version        = '0.90.2'
     $service_repo   = 'https://github.com/elasticsearch/elasticsearch-servicewrapper.git'
   case $::osfamily {
     RedHat:{
