@@ -70,6 +70,7 @@ class elasticsearch(
 
   file{'elasticserch_init':
     ensure    => file,
+    path      => '/etc/init.d/elasticsearch'
     owner     => root,
     group     => root,
     mode      => 0755,
