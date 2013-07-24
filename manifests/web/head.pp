@@ -1,16 +1,15 @@
 
 
-class elasticsearch::web::head(
-  $web_root     = '/var/www/html'
-){
-  case $operatingsystem {
-    CentOS:{
-      class{'elasticsearch::web::head::install':
-        web_root => $web_root,
-      }
-    }
-    default:{
-      warning("Elasticsearch-head web UI is not configured for ${operatingsystem} on ${fqdn}")
-    }
+class elasticsearch::web::head (
+  $apache_user = $elasticsearch::params::web_user,
+  $web_root    = $elasticsearch::params::web_root,
+  $web_group   = $elasticsearch::params::web_group,
+) inherits elasticsearch::params {
+  vcsrepo{"${web_root}/elastichead":
+    ensure    => present,
+    source    => 'git://github.com/mobz/elasticsearch-head.git',
+    provider  => git,
+    user      => $web_user,
+    group     => $web_group,
   }
 }
