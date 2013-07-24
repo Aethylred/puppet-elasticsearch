@@ -39,13 +39,14 @@ class elasticsearch(
   $max_open_files   = 65535,
   $data_dir         = undef,
   $log_dir          = undef,
-  $cluster_name     = false,
-  $node_name        = false,
-  $master_node      = false,
+  $cluster_name     = undef,
+  $node_name        = undef,
+  $master_node      = true,
   $data_node        = true,
-  $node_rack        = false,
-  $service_git_url  = 'git://github.com/elasticsearch/elasticsearch-servicewrapper.git'
+  $rack             = undef,
 ) inherits elasticsearch::params {
+
+  validate_bool($master_node,$data_node)
 
   exec{'download_elasticsearch':
     cwd     => '/tmp',
@@ -71,10 +72,17 @@ class elasticsearch(
   file{'elasticserch_init':
     ensure    => file,
     path      => '/etc/init.d/elasticsearch',
-    owner     => root,
-    group     => root,
     mode      => 0755,
     content   => template('elasticsearch/elasticsearch.erb'),
+    require   => Package['elasticsearch'],
+    notify    => Service['elasticsearch'],
+  }
+
+  file{'elasticsearch.yml':
+    ensure    => file,
+    path      => '/etc/elasticsearch/elasticsearch.yml',
+    mode      => 0644,
+    content   => template('elasticsearch/elasticsearch.yml.erb'),
     require   => Package['elasticsearch'],
     notify    => Service['elasticsearch'],
   }

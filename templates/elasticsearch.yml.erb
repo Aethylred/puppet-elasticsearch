@@ -1,5 +1,9 @@
 ##################### ElasticSearch Configuration Example #####################
-
+#
+# This script is managed by Puppet
+# Using the elasticsearch puppet module
+# https://github.com/Aethylred/puppet-elasticsearch
+#
 # This file contains an overview of various configuration settings,
 # targeted at operations staff. Application developers should
 # consult the guide at <http://elasticsearch.org/guide>.
@@ -29,34 +33,33 @@
 # Cluster name identifies your cluster for auto-discovery. If you're running
 # multiple clusters on the same network, make sure you're using unique names.
 #
+<%- if @cluster_name then -%>
+cluster.name: "<%= @cluster_name %>"
+<%- else -%>
 # cluster.name: elasticsearch
-<% if cluster_name then -%>
-cluster.name: <%= cluster_name %>
-<% end -%>
+<%- end -%>
 
 #################################### Node #####################################
 
 # Node names are generated dynamically on startup, so you're relieved
 # from configuring them manually. You can tie this node to a specific name:
 #
+<%- if @node_name then -%>
+node.name: "<%= @node_name %>"
+<%- else -%>
 # node.name: "Franz Kafka"
-<% if node_name then -%>
-node.name: <%= node_name %>
-<% end -%>
+<%- end -%>
 
 # Every node can be configured to allow or deny being eligible as the master,
 # and to allow or deny to store the data.
 #
 # Allow this node to be eligible as a master node (enabled by default):
 #
-# node.master: true
-node.master: <%= master_node %>
-
+node.master: <%= @master_node %>
 #
 # Allow this node to store data (enabled by default):
 #
-# node.data: true
-node.data: <%= data_node %>
+node.data: <%= @data_node %>
 
 # You can exploit these settings to design advanced cluster topologies.
 #
@@ -88,10 +91,11 @@ node.data: <%= data_node %>
 # for customized shard allocation filtering, or allocation awareness. An attribute
 # is a simple key value pair, similar to node.key: value, here is an example:
 #
+<%- if @rack then -%>
+node.rack <%= @rack %>
+<%- else -%>
 # node.rack: rack314
-<% if node_rack then -%>
-node.rack: <%= node_rack %>
-<% end -%>
+<%- end -%>
 
 # By default, multiple nodes are allowed to start from the same installation location
 # to disable it, set the following:
@@ -152,22 +156,16 @@ node.rack: <%= node_rack %>
 # Path to directory containing configuration (this file and logging.yml):
 #
 # path.conf: /path/to/conf
-<% if conf_path then -%>
-path.conf: <%= conf_path %>
-<% end -%>
 
 # Path to directory where to store index data allocated for this node.
 #
 # path.data: /path/to/data
 #
 # Can optionally include more than one location, causing data to be striped across
-# the locations (à la RAID 0) on a file level, favouring locations with most free
+# the locations (a la RAID 0) on a file level, favouring locations with most free
 # space on creation. For example:
 #
 # path.data: /path/to/data1,/path/to/data2
-<% if data_path then -%>
-path.data: <%= data_path %>
-<% end -%>
 
 # Path to temporary files:
 #
@@ -176,7 +174,6 @@ path.data: <%= data_path %>
 # Path to log files:
 #
 # path.logs: /path/to/logs
-path.logs: <%= log_dir %>
 
 # Path to where plugins are installed:
 #
@@ -356,7 +353,6 @@ path.logs: <%= log_dir %>
 
 # Shard level query and fetch threshold logging.
 
-#index.search.slowlog.level: TRACE
 #index.search.slowlog.threshold.query.warn: 10s
 #index.search.slowlog.threshold.query.info: 5s
 #index.search.slowlog.threshold.query.debug: 2s
@@ -366,6 +362,11 @@ path.logs: <%= log_dir %>
 #index.search.slowlog.threshold.fetch.info: 800ms
 #index.search.slowlog.threshold.fetch.debug: 500ms
 #index.search.slowlog.threshold.fetch.trace: 200ms
+
+#index.indexing.slowlog.threshold.index.warn: 10s
+#index.indexing.slowlog.threshold.index.info: 5s
+#index.indexing.slowlog.threshold.index.debug: 2s
+#index.indexing.slowlog.threshold.index.trace: 500ms
 
 ################################## GC Logging ################################
 
