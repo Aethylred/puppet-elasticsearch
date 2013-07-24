@@ -35,7 +35,10 @@
 class elasticsearch(
   $package_url      = $elasticsearch::params::package_url,
   $package_file     = $elasticsearch::params::package_file,
-  $data_path        = undef,
+  $heap_size        = undef,
+  $max_open_files   = 65535,
+  $data_dir         = undef,
+  $log_dir          = undef,
   $cluster_name     = false,
   $node_name        = false,
   $master_node      = false,
@@ -55,6 +58,24 @@ class elasticsearch(
     ensure    => installed,
     source    => "/tmp/${package_file}",
     provider  => $elasticsearch::params::package_provider,
+  }
+
+  service{'elasticsearch':
+    ensure      => running,
+    enable      => true,
+    hasstatus   => true,
+    hasrestart  => true,
+    require     => Package['elasticsearch'],
+  }
+
+  file{'elasticserch_init':
+    ensure    => file,
+    owner     => root,
+    group     => root,
+    mode      => 0755,
+    content   => template('elasticsearch/elasticsearch.erb'),
+    require   => Package['elasticsearch'],
+    notify    => Service['elasticsearch'],
   }
 
 }
