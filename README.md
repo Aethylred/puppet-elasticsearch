@@ -9,6 +9,7 @@ Install elasticsearch service
 
 # Dependencies
 
+# [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib)
 # [Oracle Java 6](http://java.sun.com/javase/downloads/index.jsp) try using the NeSI [oab-java module](https://github.com/nesi/puppet-oabjava)
 
 # Installation
