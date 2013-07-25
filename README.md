@@ -10,6 +10,7 @@ Install elasticsearch service
 # Dependencies
 
 # [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib)
+# [vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo)
 # [Oracle Java 6](http://java.sun.com/javase/downloads/index.jsp) try using the NeSI [oab-java module](https://github.com/nesi/puppet-oabjava)
 
 # Installation
@@ -22,7 +23,21 @@ Clone or submodule this repository into:
 
 To install on a node:
 
+```
 include elasticsearch
+```
+
+To install [head](http://mobz.github.io/elasticsearch-head/) web interface:
+
+```
+include elasticsearch::web::head
+```
+
+To install [bigdesk](http://bigdesk.org/) web interface:
+
+```
+include elasticsearch::web::bigdesk
+```
 
 # Issues
 
