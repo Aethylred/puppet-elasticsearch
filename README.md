@@ -1,7 +1,7 @@
 # puppet-elasticsearch
 ================
 
-Install elasticsearch service
+Install elasticsearch service and web interfaces
 
 # REQUIREMENTS
 
@@ -9,9 +9,10 @@ Install elasticsearch service
 
 # Dependencies
 
-# [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib)
-# [vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo)
-# [Oracle Java 6](http://java.sun.com/javase/downloads/index.jsp) try using the NeSI [oab-java module](https://github.com/nesi/puppet-oabjava)
+* [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib)
+* [vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo)
+* [Oracle Java 6](http://java.sun.com/javase/downloads/index.jsp) try using the NeSI [oab-java module](https://github.com/nesi/puppet-oabjava)
+* Some kind of web service installed
 
 # Installation
 
