@@ -11,5 +11,6 @@ class elasticsearch::web::head (
     provider  => git,
     user      => $web_user,
     group     => $web_group,
+    require   => Service['elasticsearch'],
   }
 }
