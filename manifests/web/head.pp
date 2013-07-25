@@ -9,8 +9,7 @@ class elasticsearch::web::head (
     ensure    => present,
     source    => 'git://github.com/mobz/elasticsearch-head.git',
     provider  => git,
-    user      => $web_user,
-    group     => $web_group,
     require   => Service['elasticsearch'],
   }
+
 }
