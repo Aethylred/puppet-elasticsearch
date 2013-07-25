@@ -6,7 +6,7 @@ class elasticsearch::web::bigdesk (
 
   vcsrepo{"${web_root}/bigdesk":
     ensure    => present,
-    source    => 'git@github.com:lukas-vlcek/bigdesk.git',
+    source    => 'https://github.com/lukas-vlcek/bigdesk.git',
     provider  => git,
     require   => Service['elasticsearch'],
   }

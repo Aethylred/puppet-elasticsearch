@@ -6,7 +6,7 @@ class elasticsearch::web::head (
 
   vcsrepo{"${web_root}/elastichead":
     ensure    => present,
-    source    => 'git://github.com/mobz/elasticsearch-head.git',
+    source    => 'https://github.com/mobz/elasticsearch-head.git',
     provider  => git,
     require   => Service['elasticsearch'],
   }
